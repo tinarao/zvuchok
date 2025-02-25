@@ -1,8 +1,10 @@
 <script>
-  import { sampleService } from "@/lib/api/service";
+  import { sampleService } from "@/lib/api/sampleService";
   import { onMount } from "svelte";
 
   onMount(async () => {
-    const response = await sampleService.getAllSamples();
+    const samples = await sampleService.getAllSamples();
   });
 </script>
+
+<div>samples</div>

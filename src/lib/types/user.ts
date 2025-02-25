@@ -1,4 +1,4 @@
-import { SamplePack, Sample } from "./samples";
+import { type SamplePack, type Sample } from "./samples";
 
 export type User = {
   id: number;

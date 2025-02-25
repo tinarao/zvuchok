@@ -12,9 +12,11 @@
   "app": {
     "windows": [
       {
-        "title": "native",
+        "title": "Звучок",
         "width": 800,
-        "height": 600
+        "height": 600,
+        "resizable": false,
+        "center": true
       }
     ],
     "security": {

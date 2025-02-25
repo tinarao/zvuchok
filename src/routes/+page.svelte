@@ -6,3 +6,5 @@
     goto("/app");
   });
 </script>
+
+<div>Index Page</div>
