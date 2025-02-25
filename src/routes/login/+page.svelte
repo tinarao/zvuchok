@@ -24,7 +24,9 @@
   });
 
   const handleSubmit = async () => {
+    isSigningIn = true;
     if (!username || !password) {
+      isSigningIn = false;
       toast.error("Заполните все поля");
       return;
     }
@@ -32,19 +34,21 @@
     const data = { username, password };
     const result = loginFormValidation.safeParse(data);
     if (!result.success) {
+      isSigningIn = false;
       toast.error(result.error.errors[0].message);
       return;
     }
 
     const response = await authService.login(data);
     if (!response.ok) {
+      isSigningIn = false;
       toast.error(response.message);
       return;
     }
 
+    isSigningIn = false;
     toast.success("Успешно!");
-    goto("/app");
-    return;
+    goto("/app/browse");
   };
 </script>
 

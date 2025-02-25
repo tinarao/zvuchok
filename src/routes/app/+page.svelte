@@ -1,10 +1,8 @@
 <script>
-  import { sampleService } from "@/lib/api/sampleService";
+  import { goto } from "$app/navigation";
   import { onMount } from "svelte";
 
-  onMount(async () => {
-    const samples = await sampleService.getAllSamples();
+  onMount(() => {
+    goto("/app/browse");
   });
 </script>
-
-<div>samples</div>

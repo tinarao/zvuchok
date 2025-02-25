@@ -12,15 +12,22 @@ class AuthService {
   }
 
   public async authenticate(): Promise<boolean> {
-    const route = BASIC_API_URL + "/auth/verify";
-    const response = await axios(route);
+    try {
+      const route = BASIC_API_URL + "/auth/verify";
+      const response = await axios(route, { withCredentials: true });
 
-    return response.status === 200;
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   public async login(data: LoginFormDTO) {
     const route = BASIC_API_URL + "/auth/login";
-    const response = await axios.post(route, data, { withCredentials: true });
+    const response = await axios.post(route, data, {
+      withCredentials: true,
+      validateStatus: () => true,
+    });
 
     if (response.status !== 200) {
       return {
@@ -28,8 +35,6 @@ class AuthService {
         message: response.data,
       };
     }
-
-    console.log(response.headers);
 
     return {
       ok: true,
