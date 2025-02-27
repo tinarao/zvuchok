@@ -1,15 +1,8 @@
 <script lang="ts">
   import Header from "@/lib/components/containers/header.svelte";
+  import LoaderCircle from "lucide-svelte/icons/loader-circle";
 
-  import { sampleService } from "@/lib/api/sampleService";
-  import { onMount } from "svelte";
-  import type { Sample } from "@/lib/types/samples";
-
-  let samples = $state<Sample[]>([]);
-
-  onMount(async () => {
-    samples = await sampleService.getAllSamples();
-  });
+  const { data } = $props();
 </script>
 
 <div class="h-screen flex flex-col">
@@ -20,10 +13,16 @@
     </div>
     <div class="col-span-3 h-full p-1 rounded-md">
       <div class="h-full p-2">
-        <p>Всего: {samples.length}</p>
-        {#each samples as sample}
-          <div>{sample.name}</div>
-        {/each}
+        {#await data.samples}
+          <div class="h-full flex items-center justify-center">
+            <LoaderCircle class="size-4 animate-spin" />
+          </div>
+        {:then samples}
+          <p>Всего: {samples.length}</p>
+          {#each samples as sample}
+            <div>{sample.name}</div>
+          {/each}
+        {/await}
       </div>
     </div>
   </main>

@@ -4,10 +4,11 @@ export type Sample = {
   id: number;
   name: string;
   slug: string;
-  description: string;
-  durationMs: number;
-  peaks: number[];
+  description?: string;
+  durationMs?: number;
+  peaks?: number[];
   sampleFilePath: string;
+  updateMetadataToken: string;
   tags: string[];
   genres: string[];
   downloads: number;

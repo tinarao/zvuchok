@@ -1,6 +1,8 @@
 import axios from "axios";
 import type { Sample } from "../types/samples";
-import { BASIC_API_URL } from "./apiConfig";
+import { BASIC_API_URL, type ActionResult } from "./apiConfig";
+import type { CreateSampleDTO } from "../validations/sample";
+import { authService } from "./authService";
 
 class SampleService {
   private static _instance: SampleService;
@@ -11,6 +13,26 @@ class SampleService {
 
   public static get Instance() {
     return this._instance || (this._instance = new this());
+  }
+
+  public async create(dto: CreateSampleDTO): Promise<ActionResult & { sample?: Sample }> {
+    const token = await authService.getToken();
+    if (!token) {
+      return { ok: false }
+    }
+    
+    const response = await axios.postForm<Sample>(this.SAMPLE_BASE_API_ROUTE, dto, {
+      validateStatus: () => true,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }); 
+
+    if (response.status !== 201) {
+      return { ok: false, message: "Failed to create sample" };
+    }
+
+    return { ok: true, sample: response.data };
   }
 
   public async getAllSamples(): Promise<Sample[]> {
